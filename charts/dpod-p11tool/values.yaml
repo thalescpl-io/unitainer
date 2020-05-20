@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: nginx
+  repository: gcr.io/thales-cplcto/unitainer/p11tool
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []

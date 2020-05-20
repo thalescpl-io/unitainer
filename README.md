@@ -5,8 +5,8 @@ This repo is intented for use by developers to create simple and easy integratio
 It Contains:
 - [x] Dockerfile(s) - Basic and Use Case specific examples for how to deploy an aplication with the Universal client
 - [ ] Image Generator - simple CLI tool that will generate Docker images for specific environments and use cases, even pulls your Client write from DPoD
-- [ ] Examples - Example apps using a Thales HSM as a root of 
-- [ ] Helm Charts - For the examples as well as common application deployments with a DPoD or Luna HSM.
+- [x] Examples - Example apps using a Thales HSM as a root of trust
+- [ ] Helm Charts - For the examples as well as common application deployments with a DPoD or Luna HSM
 
 
 

@@ -1,15 +1,18 @@
 apiVersion: skaffold/v1
 kind: Config
 build:
+  local:
+    push: false
   artifacts:
-  - image: thalescpl/unitainer/dpod
-    docker:
-      dockerfile: docker/Dockerfile.dpod
-    context: .
+    - image: gcr.io/thales-cplcto/unitainer/p11tool
+      docker:
+        dockerfile: docker/Dockerfile.dpod
+
+      context: .
 deploy:
   helm:
     releases:
-    - name: dpod-p11tool
-      chartPath: charts/dpod-p11tool
-      values:
-        image: thalescpl/unitainer/dpod
+      - name: dpod-p11tool
+        chartPath: charts/dpod-p11tool
+        values:
+          image.repository: gcr.io/thales-cplcto/unitainer/p11tool

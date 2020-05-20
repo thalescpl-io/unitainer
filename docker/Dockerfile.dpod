@@ -5,15 +5,15 @@ ENV GOOS linux
 ENV CGO_ENABLED 1
 RUN GO111MODULE=off go get -u github.com/thales-e-security/p11tool
 
-## Extract dpod client
+## Add DPoD Client from clients dir into the container.
 FROM centos:7 as dpod
-ADD clients/setup-client1/cvclient-min.tar /dpod/client
-ADD clients/setup-client1/Chrystoki.conf /dpod/client/Chrystoki.conf
-ADD clients/setup-client1/partition-ca-certificate.pem /dpod/client/partition-ca-certificate.pem
-ADD clients/setup-client1/partition-certificate.pem /dpod/client/partition-certificate.pem
-ADD clients/setup-client1/server-certificate.pem /dpod/client/server-certificate.pem
-ADD hacks/setenv.sh /dpod/client/setenv
+ADD clients/partition1/cvclient-min.tar /dpod/client
+ADD clients/partition1/Chrystoki.conf /dpod/client/Chrystoki.conf
+ADD clients/partition1/partition-ca-certificate.pem /dpod/client/partition-ca-certificate.pem
+ADD clients/partition1/partition-certificate.pem /dpod/client/partition-certificate.pem
+ADD clients/partition1/server-certificate.pem /dpod/client/server-certificate.pem
+RUN cp /dpod/client/libs/64/libCryptoki2.so /usr/lib/libcrystoki2.so
 ENV LD_LIBRARY_PATH "/dpod/client/libs/64"
-VOLUME /data
-WORKDIR /
-COPY --from=keystore-build /go/bin/p11tool /p11tool
+WORKDIR /dpod/client
+RUN echo "cd /dpod/client ; source setenv" >> /root/.bashrc
+COPY --from=p11tool /go/bin/p11tool /usr/bin/p11tool
