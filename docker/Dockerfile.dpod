@@ -1,0 +1,19 @@
+## Basic test tool
+FROM golang:1.14-stretch as p11tool
+ENV GOARCH amd64
+ENV GOOS linux
+ENV CGO_ENABLED 1
+RUN GO111MODULE=off go get -u github.com/thales-e-security/p11tool
+
+## Extract dpod client
+FROM centos:7 as dpod
+ADD clients/setup-client1/cvclient-min.tar /dpod/client
+ADD clients/setup-client1/Chrystoki.conf /dpod/client/Chrystoki.conf
+ADD clients/setup-client1/partition-ca-certificate.pem /dpod/client/partition-ca-certificate.pem
+ADD clients/setup-client1/partition-certificate.pem /dpod/client/partition-certificate.pem
+ADD clients/setup-client1/server-certificate.pem /dpod/client/server-certificate.pem
+ADD hacks/setenv.sh /dpod/client/setenv
+ENV LD_LIBRARY_PATH "/dpod/client/libs/64"
+VOLUME /data
+WORKDIR /
+COPY --from=keystore-build /go/bin/p11tool /p11tool

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "dpod-k8s-kms-plugin.fullname" . }}-test-connection"
+  labels:
+    {{- include "dpod-k8s-kms-plugin.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "dpod-k8s-kms-plugin.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never
