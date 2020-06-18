@@ -5,6 +5,11 @@ ENV GOOS linux
 ENV CGO_ENABLED 1
 RUN GO111MODULE=off go get -u github.com/thales-e-security/p11tool
 
+## Sample Application
+FROM golang:1.14-stretch as hello_cloud
+ADD
+
+
 ## Add DPoD Client from clients dir into the container.
 FROM centos:7 as dpod
 ADD clients/partition1/cvclient-min.tar /dpod/client
