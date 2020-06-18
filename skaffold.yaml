@@ -4,10 +4,9 @@ build:
   local:
     push: false
   artifacts:
-    - image: gcr.io/thales-cplcto/unitainer/p11tool
+    - image: gcr.io/thales-cplcto/unitainer/hello_cloud
       docker:
-        dockerfile: docker/Dockerfile.dpod
-
+        dockerfile: docker/Dockerfile.partition1
       context: .
 deploy:
   helm:
@@ -15,4 +14,4 @@ deploy:
       - name: dpod-p11tool
         chartPath: charts/dpod-p11tool
         values:
-          image.repository: gcr.io/thales-cplcto/unitainer/p11tool
+          image.repository: gcr.io/thales-cplcto/unitainer/hello_cloud

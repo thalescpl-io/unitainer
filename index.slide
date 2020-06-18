@@ -1,14 +1,57 @@
 # "Hello Cloud, I'm a HSM"
-How to use your Thales HSM in Cloud Native ways...
+
 17 Jun 2020
-Tags: foo, bar, baz
-Summary: This is a great document you want to read.
 
 Sol Cates
 Principal Technologist, CTO
 solomon.cates@thalesgroup.com
 @solcates
 
-## Once Upon there was an HSM
+## Our Goal
 
-It looked like a 
+- Design a Cloud Native architecture for access to an HSM
+- Develop a simple **"hello_cloud"** application that leverages a Thales HSM 
+- Continuously deploy the application to a cloud native platform (K8S, and Knative)
+
+## Design for Cloud Native
+
+## HSM != Software
+
+- **Hardware Security Modules** by their very definition are bound tightly to hardware locations and local attestations of those devices.
+- Traditional Applications that leverage a HSM are confined to the local operating system.
+- This can make it difficult to scale or migrate to cloud base architectures if you have not "containerized" your application.
+
+## Unitainer
+
+Containers are not the same as VMs or Operating Systems.
+
+This preso is actually in the [unitainer](https://github.com/thalescpl-io/unitainer) repo, which is a set of tools and examples to
+start experimenting and designing how you will "containerize" your application.
+
+## Develop our Simple Application
+
+## Our Tools
+- Dockerfile  - for containerizing the simple application
+- Golang 1.14 - I'm a Gopher :P
+- [github.com/ThalesIgnite/crypto11](https://github.com/ThalesIgnite/crypto11) - Provides HSM powered crypto.Signer and crypto.
+- [github.com/ThalesIgnite/gose](https://github.com/ThalesIgnite/gose) - JOSE (JWT/JWK/JWE/etc..) implemented and optimized for Go base µServices
+
+## Simple App - Configuring access to the HSM
+
+.code examples/hello_cloud/main.go /^func main/,/end config/
+
+## Simple App - JWE FTW!
+
+.code examples/hello_cloud/main.go /var rng/,/From the HSM HLxxx
+
+## Dockerfile - Building our application
+
+.code docker/Dockerfile.partition1 /^## Sample /,/examples\/hello_cloud HLxxx
+
+## Dockerfile - Putting it all together
+
+.code docker/Dockerfile.partition1 /^## Add DPoD/,/hello_cloud HLxxx
+
+## Deploying - Just skaffold it
+
+.code skaffold.yaml

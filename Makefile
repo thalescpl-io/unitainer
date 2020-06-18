@@ -1,7 +1,10 @@
-
+.PHONY: preso gen
 
 gen:
 		@prototool generate
 
 preso:
-		@present index.md
+		@present -base preso index.slide
+
+build:
+		@go build github.com/thalescpl-io/unitainer/examples/hello_cloud

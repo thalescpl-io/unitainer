@@ -7,7 +7,11 @@ RUN GO111MODULE=off go get -u github.com/thales-e-security/p11tool
 
 ## Sample Application
 FROM golang:1.14-stretch as hello_cloud
-ADD
+ADD go.mod /app/go.mod
+ADD go.mod /app/go.mod
+ADD examples/hello_cloud /app/examples/hello_cloud
+WORKDIR /app/
+RUN go build github.com/thalescpl-io/unitainer/examples/hello_cloud
 
 
 ## Add DPoD Client from clients dir into the container.
@@ -22,3 +26,4 @@ ENV LD_LIBRARY_PATH "/dpod/client/libs/64"
 WORKDIR /dpod/client
 RUN echo "cd /dpod/client ; source setenv" >> /root/.bashrc
 COPY --from=p11tool /go/bin/p11tool /usr/bin/p11tool
+COPY --from=hello_cloud /app/examples/hello_cloud/hello_cloud /usr/bin/hello_cloud
